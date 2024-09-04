@@ -14,13 +14,13 @@ The entire PIL region **allocated** by the UEFI firmware is:
 
 ### Subsections of PIL Region from downstream device tree:
 
-| FW Name      | CAMERA     | VENUS      | EVA        | ADSP       | SLPI       | CDSP       | IPA        | GAP0       | GFXSUC     | GAP1       | SPSS       | GAP2       | MODEM      | DHMS       |
-|--------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
-| Memory Set   | Hardcoded  | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       |
-| Memory Start | 0x8ad00000 | 0x8b200000 | -          | 0x84700000 | -          | 0x88f00000 | 0x8b700000 | 0x8b710000 | 0x8b71a000 | -          | -          |          - | 0x4080000  | - |
-| Memory End   | 0x8b200000 | 0x8b700000 | -          | 0x88f00000 | -          | 0x8ad00000 | 0x8b710000 | 0x8b71a000 | 0x8b71c000 | -          | -          | -          | 0x4080100  | - |
-| Memory Size  | 0x500000   | 0x500000   | -          | 0x4800000  | -          | 0x1e00000  | 0x10000    | 0xa000     | 0x2000     | -          | -          | -          | 0x100      | - |
-| Config       | PILE       | PILE       | PILE       | SUBA, PILE | SUBS, PILE | SUBC, PILE | PILE       |            | PILE       |            | SUBSPSS    |            | SUBM       | PILE       |
+| FW Name      | ADSP       | CDSP       | CAMERA     | VENUS      | IPA        |  GAP0      | GFXSUC     | GAP1       | MODEM      | SLPI       | GAP1       | SPSS       | GAP2       | DHMS       |
+|--------------|------------|------------|------------|------------|------------|------------|------------|------------|------w------|------------|------------|------------|------------|------------|
+| Memory Set   | PGCM       | PGCM       | Hardcoded  | PGCM       | PGCM       | PGCM       | PGCM       |            | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       |
+| Memory Start | 0x84700000 | 0x88f00000 | 0x8ad00000 | 0x8b200000 | 0x8b700000 | 0x8b710000 | 0x8b71a000 | 0x8b71c000 | 0x8b800000 | -          | -          | -          |          - | - |
+| Memory End   | 0x88f00000 | 0x8ad00000 | 0x8b200000 | 0x8b700000 | 0x8b710000 | 0x8b71a000 | 0x8b71c000 | 0x8b800000 |            | -          | -          | -          | -          | - |
+| Memory Size  | 0x4800000  | 0x1e00000  | 0x500000   | 0x500000   | 0x10000    | 0xa000     | 0x2000     | 0xe4000    | 0xf600000  | -          | -          | -          | -          | - |
+| Config       | SUBA, PILE | SUBC, PILE | PILE       | PILE       | PILE       |            | PILE       |            | SUBM       | SUBS, PILE |            | SUBSPSS    |            | PILE       |
 
 PGCM area is configured in PILE (qcpilEXT8350) and must match above table allocation plan.
 
