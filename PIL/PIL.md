@@ -12,14 +12,14 @@ The entire PIL region **allocated** by the UEFI firmware is:
 
 (Refer to the section named UEFI Memory Map for more information on how this is defined).
 
-### Breakdown of the different subsections of the PIL region:
+### Subsections of PIL Region from downstream device tree:
 
 | FW Name      | CAMERA     | VENUS      | EVA        | ADSP       | SLPI       | CDSP       | IPA        | GAP0       | GFXSUC     | GAP1       | SPSS       | GAP2       | MODEM      | DHMS       |
 |--------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
 | Memory Set   | Hardcoded  | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       |
-| Memory Start | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
-| Memory End   | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
-| Memory Size  | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
+| Memory Start | 0x8ad00000 | 0x8b200000 | -          | 0x84700000 | -          | 0x88f00000 | 0x8b700000 | 0x8b710000 | 0x8b71a000 | -          | -          |          - | 0x4080000  | - |
+| Memory End   | 0x8b200000 | 0x8b700000 | -          | 0x88f00000 | -          | 0x8ad00000 | 0x8b710000 | 0x8b71a000 | 0x8b71c000 | -          | -          | -          | 0x4080100  | - |
+| Memory Size  | 0x500000   | 0x500000   | -          | 0x4800000  | -          | 0x1e00000  | 0x10000    | 0xa000     | 0x2000     | -          | -          | -          | 0x100      | - |
 | Config       | PILE       | PILE       | PILE       | SUBA, PILE | SUBS, PILE | SUBC, PILE | PILE       |            | PILE       |            | SUBSPSS    |            | SUBM       | PILE       |
 
 PGCM area is configured in PILE (qcpilEXT8350) and must match above table allocation plan.
