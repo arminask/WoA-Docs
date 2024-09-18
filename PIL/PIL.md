@@ -18,7 +18,7 @@ The entire PIL region **allocated** by the UEFI firmware is:
 
 | FW Name      | CAMERA     | VENUS      | EVA        | ADSP       | GAP0       | CDSP       | IPA        | GAP1       | GFXUC      | GAP2       | GAP3       | GAP4       | MODEM      | DHMS       |
 |--------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
-| Memory Set   | PGCM       | PGCM       | Hardcoded  | PGCM       | PGCM       | PGCM       | PGCM       |            | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       |
+| Memory Set   | Hardcoded  | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       |
 | Memory Start | 0x84300000 | 0x84800000 | 0x84D00000 | 0x85200000 | 0x87300000 | 0x88800000 | 0x8A600000 | 0x8A610000 | 0x8A61A000 | 0x8A61C000 | 0x8A700000 | 0x8A800000 | 0x8B700000 | 0x9B700000 |
 | Memory End   | 0x84800000 | 0x84D00000 | 0x85200000 | 0x87300000 | 0x88800000 | 0x8A600000 | 0x8A610000 | 0x8A61A000 | 0x8A61C000 | 0x8A700000 | 0x8A800000 | 0x8B700000 | 0x9B700000 | 0x9BD00000 |
 | Memory Size  | 0x00500000 | 0x00500000 | 0x00500000 | 0x02100000 | 0x01500000 | 0x01E00000 | 0x00010000 | 0x0000A000 | 0x00002000 | 0x000E4000 | 0x00100000 | 0x00F00000 | 0x10000000 | 0x00600000 |
@@ -82,62 +82,63 @@ We reached the end of the whole reserved region in our UEFI firmware.
 
 ### INF Packages
 
-(not edited from now on)
-
-\components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+/components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
 ```ini
 [PILReg_Common]
-HKR, SubsystemLoad\VENUS,  MemoryAlignment, %REG_DWORD%, 0
-HKR, SubsystemLoad\GFXSUC, MemoryAlignment, %REG_DWORD%, 0x00001000
+HKR ,SubsystemLoad\VENUS,MemoryAlignment,%REG_DWORD%,0
+HKR ,SubsystemLoad\GFXSUC,MemoryAlignment,%REG_DWORD%,0x00001000
 ; Venus registry values
-HKR, SubsystemLoad\VENUS, MemoryReservation, %REG_DWORD%, 0x00500000
+HKR ,SubsystemLoad\VENUS,MemoryReservation,%REG_DWORD%,0x00500000
 ; GFX registry values
-HKR, SubsystemLoad\GFXSUC, MemoryReservation, %REG_DWORD%, 0x00002000
+; Original size is 0x00005000, not sure about this
+HKR ,SubsystemLoad\GFXSUC,MemoryReservation,%REG_DWORD%,0x00002000
 
+; ---
 ; CAMERA registry values
-HKR, SubsystemLoad\CAMERA, MemoryAddress,     %REG_DWORD%, 0x85200000
+HKR, SubsystemLoad\CAMERA, MemoryAddress,     %REG_DWORD%, 0x84300000
 HKR, SubsystemLoad\CAMERA, MemoryReservation, %REG_DWORD%, 0x00500000
 ; Venus registry values
-HKR, SubsystemLoad\VENUS, MemoryAddress, %REG_DWORD%, 0x85700000
+HKR, SubsystemLoad\VENUS, MemoryAddress, %REG_DWORD%, 0x84800000
 ; EVA registry values
-HKR, SubsystemLoad\EVA, MemoryAddress,     %REG_DWORD%, 0x85C00000
+HKR, SubsystemLoad\EVA, MemoryAddress,     %REG_DWORD%, 0x84D00000
 HKR, SubsystemLoad\EVA, MemoryReservation, %REG_DWORD%, 0x00500000
 ; ADSP registry values
-HKR, SubsystemLoad\ADSP, MemoryAddress, %REG_DWORD%, 0x86100000
-; SLPI registry values
-HKR, SubsystemLoad\SLPI, MemoryAddress, %REG_DWORD%, 0x88200000
+HKR, SubsystemLoad\ADSP, MemoryAddress, %REG_DWORD%, 0x85200000
 ; CDSP registry values
-HKR, SubsystemLoad\CDSP, MemoryAddress, %REG_DWORD%, 0x89700000
+HKR, SubsystemLoad\CDSP, MemoryAddress, %REG_DWORD%, 0x88800000
 ; IPA registry values
-HKR, SubsystemLoad\IPA, MemoryAddress,     %REG_DWORD%, 0x8B500000
+HKR, SubsystemLoad\IPA, MemoryAddress,     %REG_DWORD%, 0x8A600000
 HKR, SubsystemLoad\IPA, MemoryReservation, %REG_DWORD%, 0x00010000
 ; GFX registry values
-HKR, SubsystemLoad\GFXSUC, MemoryAddress, %REG_DWORD%, 0x8B51A000
+HKR, SubsystemLoad\GFXSUC, MemoryAddress, %REG_DWORD%, 0x8A61A000
+; ---
 
 ;DHMS region need to be added as a region under SubsystemLoad like below as we do not want 
 ;PIL to use or operate on this region which is not managed by PIL by any means.
 ;DHMS is managed by QSM device of subsys
-HKR, SubsystemLoad\DHMS, MemoryAddress,     %REG_DWORD%, 0x9B800000
-HKR, SubsystemLoad\DHMS, MemoryReservation, %REG_DWORD%, 0x00600000
-HKR, SubsystemLoad\DHMS, MemoryAlignment,   %REG_DWORD%, 0x00100000
+HKR,SubsystemLoad\DHMS,MemoryAddress,%REG_DWORD%,0x9B700000	
+HKR,SubsystemLoad\DHMS,MemoryReservation,%REG_DWORD%,0x00600000
+HKR,SubsystemLoad\DHMS,MemoryAlignment,%REG_DWORD%,0x00600000
 ;0x0 - PIL-Region to be included in PGCM and usable by PIL driver.
 ;0x1 - PIL-Region to be excluded from PGCM and not-usable by PIL driver.
 ;0x2 - PIL-Region to be excluded from PGCM and to be returned to HLOS.
-HKR, SubsystemLoad\DHMS, MemoryAttribute, %REG_DWORD%, 0x1
+HKR,SubsystemLoad\DHMS,MemoryAttribute,%REG_DWORD%,0x1
 
 ;Misc
-HKR, PilConfig, HypProtectionEnabled,    %REG_DWORD%, 1
-HKR, PilConfig, DoNotReturnMemoryToHLOS, %REG_DWORD%, 1
+HKR,PilConfig,HypProtectionEnabled,%REG_DWORD%,1
+HKR,PilConfig,DoNotReturnMemoryToHLOS,%REG_DWORD%,0
 
 ;PGCM
-HKR, PGCM, BaseAddress, %REG_DWORD%, 0x85700000
-HKR, PGCM, Size,        %REG_DWORD%, 0x16700000
+HKR,PGCM,BaseAddress,%REG_DWORD%,0x84800000
+HKR,PGCM,Size,%REG_DWORD%,0x17500000
 
-;IMEM
-HKR, IMEM, BaseAddress, %REG_DWORD%, 0x146BF000
-HKR, IMEM, Offset,      %REG_DWORD%, 0x94C
+;IMEM - this refers to PIL/reloc.Img.load.Info in ipcat - https://ipcatalog.qualcomm.com/memmap/chip/379/map/1217/version/7307/block/7971925
+HKR,IMEM,BaseAddress,%REG_DWORD%,0x146AA000
+HKR,IMEM,Offset,%REG_DWORD%,0x94C
 ```
+
+(not edited from now on)
 
 \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_adsp8350.inf
 
