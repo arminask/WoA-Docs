@@ -1,5 +1,7 @@
 # PIL Memory Region Settings Assignment
 
+Based on [MTP08350 platform](https://github.com/WOA-Project/windows_silicon_qcom_lahaina/blob/26fe3908e8a651de0498eed797518ca93b2c1420/docs/PIL.md)
+
 ## SM7325 Platform ID Case Study
 
 ### Windows Firmware Information
@@ -17,71 +19,70 @@ The entire PIL region **allocated** by the UEFI firmware is:
 | FW Name      | CAMERA     | VENUS      | EVA        | ADSP       | GAP0       | CDSP       | IPA        | GAP1       | GFXUC      | GAP2       | GAP3       | GAP4       | MODEM      | DHMS       |
 |--------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
 | Memory Set   | PGCM       | PGCM       | Hardcoded  | PGCM       | PGCM       | PGCM       | PGCM       |            | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       |
-| Memory Start | 0x84700000 | 0x88f00000 | 0x8ad00000 | 0x8b200000 | 0x8b700000 | 0x8b710000 | 0x8b71a000 | 0x8b71c000 | 0x8b800000 | -          | -          | -          |          - | - |
-| Memory End   | 0x88f00000 | 0x8ad00000 | 0x8b200000 | 0x8b700000 | 0x8b710000 | 0x8b71a000 | 0x8b71c000 | 0x8b800000 |            | -          | -          | -          | -          | - |
-| Memory Size  | 0x4800000  | 0x1e00000  | 0x500000   | 0x500000   | 0x10000    | 0xa000     | 0x2000     | 0xe4000    | 0xf600000  | -          | -          | -          | -          | - |
-| Config       | SUBA, PILE | SUBC, PILE | PILE       | PILE       | PILE       |            | PILE       |            | SUBM       | SUBS, PILE |            | SUBSPSS    |            | PILE       |
+| Memory Start | 0x84300000 | 0x84800000 | 0x84D00000 | 0x85200000 | 0x87300000 | 0x88800000 | 0x8A600000 | 0x8A610000 | 0x8A61A000 | 0x8A61C000 | 0x8A700000 | 0x8A800000 | 0x8B700000 | 0x9B700000 |
+| Memory End   | 0x84800000 | 0x84D00000 | 0x85200000 | 0x87300000 | 0x88800000 | 0x8A600000 | 0x8A610000 | 0x8A61A000 | 0x8A61C000 | 0x8A700000 | 0x8A800000 | 0x8B700000 | 0x9B700000 | 0x9BD00000 |
+| Memory Size  | 0x00500000 | 0x00500000 | 0x00500000 | 0x02100000 | 0x01500000 | 0x01E00000 | 0x00010000 | 0x0000A000 | 0x00002000 | 0x000E4000 | 0x00100000 | 0x00F00000 | 0x10000000 | 0x00600000 |
+| Config       | PILE       | PILE       | PILE       | SUBA, PILE |            | SUBC, PILE | PILE       |            | PILE       |    	 |            |            | SUBM       | PILE       |
 
 PGCM area is configured in PILE (qcpilEXT8350) and must match above table allocation plan.
 
 **Below regions are hardcoded in ACPI tables / firmware and are therefore not dynamically used by the Operating System**
 
-- CAMERA: Start 0x85200000, End 0x85700000, Size 0x00500000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+- CAMERA: Start 0x84300000, End 0x84800000, Size 0x00500000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
 **Below regions are not hardcoded in ACPI tables / firmware and are therefore dynamically used by the Operating System**
 
 For this kind of region, the PIL driver is instructed the total size of the region in use dynamically below using "PGCM":
 
-- PGCM:   Start 0x85700000, End 0x9BE00000, Size 0x16700000
-    - Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+- PGCM:   Start 0x84800000, End 0x9BD00000, Size 0x17500000
+    - Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
 We then define every firmware binary meant to load in such region:
 
-- VENUS:  Start 0x85700000, End 0x85C00000, Size 0x00500000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+- VENUS:  Start 0x84800000, End 0x84D00000, Size 0x00500000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
-- EVA:    Start 0x85C00000, End 0x86100000, Size 0x00500000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+- EVA:    Start 0x84D00000, End 0x85200000, Size 0x00500000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
-- ADSP:   Start 0x86100000, End 0x88200000, Size 0x02100000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_adsp8350.inf
+- ADSP:   Start 0x85200000, End 0x87300000, Size 0x02100000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/Subsystems/qcsubsys_ext_adsp7280.inf
 
-- SLPI:   Start 0x88200000, End 0x89700000, Size 0x01500000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_scss8350.inf
+**GAP0: Gap Here From 0x87300000 to 0x88800000**
 
-- CDSP:   Start 0x89700000, End 0x8B500000, Size 0x01E00000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_cdsp8350.inf
+- CDSP:   Start 0x88800000, End 0x8A600000, Size 0x01E00000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/Subsystems/qcsubsys_ext_cdsp7280.inf
 
-- IPA:    Start 0x8B500000, End 0x8B510000, Size 0x00010000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+- IPA:    Start 0x8A600000, End 0x8A610000, Size 0x00010000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
-**Gap Here From 0x8B510000 to 0x8B51A000**
+**GAP1 Gap Here From 0x8A610000 to 0x8A61A000**
 
-- GFXSUC: Start 0x8B51A000, End 0x8B51C000, Size 0x00002000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+- GFXSUC: Start 0x8A61A000, End 0x8A61C000, Size 0x00002000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
-**Gap Here From 0x8B51C000 to 0x8B600000**
+**GAP2: Gap Here From 0x8A61C000 to 0x8A700000**
 
-- SPSS:   Start 0x8B600000, End 0x8B700000, Size 0x00100000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_spss8350.inf
+**GAP3: Gap Here From 0x8A700000 to 0x8A800000**
 
-**Gap Here From 0x8B700000 to 0x8B800000**
+**GAP4: Gap Here From 0x8A800000 to 0x8B700000**
 
-- MODEM:  Start 0x8B800000, End 0x9B800000, Size 0x10000000
-	- Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_mpss8350.inf
+- MODEM:  Start 0x8B700000, End 0x9B700000, Size 0x10000000
+	- Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/Subsystems/qcsubsys_ext_mpss7280.inf
 
-- DHMS:   Start 0x9B800000, End 0x9BE00000, Size 0x00600000
-    - Defined in \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
+- DHMS:   Start 0x9B700000, End 0x9BD00000, Size 0x00600000
+  - Defined in /components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/HexagonLoader/qcpilEXT7280.inf
 
 We reached the end of the whole reserved region in our UEFI firmware.
 
 ---
 
 ### INF Packages
+
+(not edited from now on)
 
 \components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\HexagonLoader\qcpilext8350.inf
 
