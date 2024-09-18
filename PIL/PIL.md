@@ -6,15 +6,15 @@
 
 The entire PIL region **allocated** by the UEFI firmware is:
 
-- Start: 
-- End:   
-- Size:  
+- Start: 0x84300000
+- End: 0x9BD00000
+- Size: 0x17A00000
 
 (Refer to the section named UEFI Memory Map for more information on how this is defined).
 
 ### Subsections of PIL Region from downstream device tree:
 
-| FW Name      | ADSP       | CDSP       | CAMERA     | VENUS      | IPA        |  GAP0      | GFXSUC     | GAP1       | MODEM      | SLPI       | GAP1       | SPSS       | GAP2       | DHMS       |
+| FW Name      | CAMERA     | VENUS      | EVA        | ADSP       | GAP0       | CDSP       | IPA        | GAP1       | GFXUC      | GAP2       | GAP3       | GAP4       | MODEM      | DHMS       |
 |--------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|------------|
 | Memory Set   | PGCM       | PGCM       | Hardcoded  | PGCM       | PGCM       | PGCM       | PGCM       |            | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       | PGCM       |
 | Memory Start | 0x84700000 | 0x88f00000 | 0x8ad00000 | 0x8b200000 | 0x8b700000 | 0x8b710000 | 0x8b71a000 | 0x8b71c000 | 0x8b800000 | -          | -          | -          |          - | - |
