@@ -138,62 +138,47 @@ HKR,IMEM,BaseAddress,%REG_DWORD%,0x146AA000
 HKR,IMEM,Offset,%REG_DWORD%,0x94C
 ```
 
-(not edited from now on)
 
-\components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_adsp8350.inf
+/components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/Subsystems/qcsubsys_ext_adsp7280.inf
 
 ```ini
 [PIL_Reg_common]
-HKR, SubsystemLoad\ADSP, MemoryAlignment, %REG_DWORD%, 0x00100000
+HKR ,SubsystemLoad\ADSP,MemoryAlignment,%REG_DWORD%,0x00100000
 
 [PIL_Reg_MSM]
 ; ADSP registry values
-HKR, SubsystemLoad\ADSP, MemoryReservation, %REG_DWORD%, 0x2100000
+HKR ,SubsystemLoad\ADSP,MemoryReservation,%REG_DWORD%,0x2100000
 ```
 
-\components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_cdsp8350.inf
+/components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/Subsystems/qcsubsys_ext_cdsp7280.inf
 
 ```ini
 [PIL_Reg_common]
-HKR, SubsystemLoad\CDSP, MemoryAlignment, %REG_DWORD%, 0x00100000
+HKR ,SubsystemLoad\CDSP,MemoryAlignment,%REG_DWORD%,0x00100000
 
 [PIL_Reg_MSM]
 ; CDSP registry values
-HKR, SubsystemLoad\CDSP, MemoryReservation, %REG_DWORD%, 0x1e00000
+HKR ,SubsystemLoad\CDSP,MemoryReservation,%REG_DWORD%,0x1e00000
 ```
 
-\components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_mpss8350.inf
+/components/QC7325/Device/A52sxq/DEVICE.SOC_QC7325.A52SXQ/Extensions/Subsystems/qcsubsys_ext_mpss7280.inf
 
 ```ini
 [PIL_Reg_common]
 ; AMSS registry values
-HKR, SubsystemLoad\MODEM, MemoryAlignment, %REG_DWORD%, 0x00400000
-HKR, SubsystemLoad\MODEM, MemoryAddress,   %REG_DWORD%, 0x8B800000
+HKR ,SubsystemLoad\MODEM,MemoryAlignment,%REG_DWORD%,0x00400000
+HKR ,SubsystemLoad\MODEM,MemoryAddress,%REG_DWORD%,0x8B700000
 
 [PIL_Reg_MSM]
 ; AMSS registry values
-HKR, SubsystemLoad\MODEM, MemoryReservation, %REG_DWORD%, 0x10000000
+HKR ,SubsystemLoad\MODEM,MemoryReservation,%REG_DWORD%,0x10000000
+
+[PIL_Reg_GPS]
+; GPS registry values
+HKR ,SubsystemLoad\MODEM,MemoryReservation,%REG_DWORD%,0x8000000
 ```
 
-\components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_scss8350.inf
-
-```ini
-[PIL_Reg_common]
-HKR, SubsystemLoad\SLPI, MemoryAlignment, %REG_DWORD%, 0x00100000
-
-[PIL_Reg_MSM]
-; SLPI registry values
-HKR, SubsystemLoad\SLPI, MemoryReservation, %REG_DWORD%, 0x1500000
-```
-
-\components\QC8350\Device\DEVICE.SOC_QC8350.LAHAINA\Extensions\Subsystems\qcsubsys_ext_spss8350.inf
-
-```ini
-[PIL_Reg_common]
-HKR, SubsystemLoad\SPSS, MemoryAlignment,   %REG_DWORD%, 0x00100000
-HKR, SubsystemLoad\SPSS, MemoryAddress,     %REG_DWORD%, 0x8B600000
-HKR, SubsystemLoad\SPSS, MemoryReservation, %REG_DWORD%, 0x00100000
-```
+(not edited from now on)
 
 ### UEFI Memory Map
 
