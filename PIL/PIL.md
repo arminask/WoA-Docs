@@ -1,6 +1,6 @@
 # PIL Memory Region Settings Assignment
 
-Based on [MTP08350 platform](https://github.com/WOA-Project/windows_silicon_qcom_lahaina/blob/26fe3908e8a651de0498eed797518ca93b2c1420/docs/PIL.md)
+Document formatting based on [MTP08350 platform](https://github.com/WOA-Project/windows_silicon_qcom_lahaina/blob/26fe3908e8a651de0498eed797518ca93b2c1420/docs/PIL.md)
 
 ## SM7325 Platform ID Case Study
 
