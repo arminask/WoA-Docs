@@ -1,17 +1,16 @@
-# I2C touchscreen controller bring-up for Qualcomm Windows platforms
+# Bringing up touchscreen controller for Windows platform
 
-This documentation will show how touchscreen support for Windows is added.
+This article will explain how to implement touchscreen controller on Windows OS using a downstream Linux device tree as reference.
 
-All of the shown examples will be used from Galaxy A52s (a52sxq) SM7325 platform touch bring-up.
+All examples shown below were used from the implementation of an Android device with Qualcomm Snapdragon 778G SoC (SM7325).
 
 ---
 
-### Gathering information from the downstream Linux device tree
+### Downstream Linux device tree
 
-First, we need to find the touchscreen node in the device tree. To find that in dts, you can use the search for keywords like `touchscreen`, `touch`, etc.
-Sometimes there can be multiple touchscreen nodes, disregard ones which are disabled.
+Touchscreen node in the device tree. It is possible that there can be multiple touchscreen nodes which can be disregarded by checking if it's statuses are disabled.
 
-The I2C device which touch uses will be the touchscreen controller's child block.
+The parent I2C node which the touchscreen uses will be the touchscreen controller's child block.
 
 ```c
 		i2c@a94000 {
@@ -54,7 +53,7 @@ The I2C device which touch uses will be the touchscreen controller's child block
 				status = "disabled";
 			};
 
-			/* touchscreen@49 node is the one that's used, novatek@62 has a disabled status */
+			/* touchscreen@49 node is the active one, since novatek@62 is disabled */
 
 			touchscreen@49 {
 				status = "ok";
@@ -88,9 +87,9 @@ The I2C device which touch uses will be the touchscreen controller's child block
 ```
 <br>
 
-For the touch controller's PEP scope creation, we find the relevant parts from device tree, mentioned in the touchscreen@49 node.
+Relevant parts for the ACPI custom PEP0 LPXC packages modification.
 
-In touchscreen node, the LDO regulator is mentioned here: `tsp_avdd_ldo-supply = <0x303>;`, then we find it with it's phandle `0x303`:
+The `touchscreen@49` node, line: `tsp_avdd_ldo-supply = <0x303>;` mentions an LDO regulator which can be found by it's phandle `<0x303>`:
 
 ```c
 			rpmh-regulator-ldoc7 {
@@ -114,7 +113,7 @@ In touchscreen node, the LDO regulator is mentioned here: `tsp_avdd_ldo-supply =
 ```
 <br>
 
-To know the correct PEP scope DSTATE order and their pin-states, let's look at the `0x5b8` phandle which is mentioned in touchscreen@49 node: `pinctrl-0 = <0x5b8>;`
+To know the correct LPMX packages order and their configuration in the PEP scope device, let's look at the `<0x5b8>` phandle which is mentioned in the touchscreen@49 node, line: `pinctrl-0 = <0x5b8>;`.
 
 ```
 			stm_attn_irq {
@@ -134,7 +133,7 @@ To know the correct PEP scope DSTATE order and their pin-states, let's look at t
 ```
 <br>
 
-Same thing for the `pinctrl-1 = <0x5b9>;` with phandle `0x5b9`:
+The touchscreen@49 node has another `pinctrl-1 = <0x5b9>;` line with phandle `<0x5b9>`.
 
 ```c
 			stm_attn_input {
@@ -152,10 +151,11 @@ Same thing for the `pinctrl-1 = <0x5b9>;` with phandle `0x5b9`:
 				};
 			};
 ```
+<br>
 
 ### ACPI configuration
 
-TSC1 device:
+`TSC1` device configuration:
 
 ```c
         Device(TSC1)
@@ -235,7 +235,7 @@ TSC1 device:
 ```
 <br>
 
-I2C IC14 device:
+I2C controller's IC14 node:
 
 ```c
         Device (IC14)
@@ -260,7 +260,7 @@ I2C IC14 device:
 ```
 <br>
 
-LPMX package PEP0 scope:
+PEP0 scope and it's LPXC packages:
 
 ```c
         Scope (\_SB.PEP0)
@@ -387,4 +387,17 @@ LPMX package PEP0 scope:
 ```
 <br>
 
+### Explanation of changes in the ACPI configuration
 
+The `TSC1` device Hardware-ID (HID) is defined like this: `Name(_HID, "STFT556A")`, which is used by the device's Windows driver.
+
+
+`IC14` is the I2C controller number that is used for touch, it is defined in the _DEP package.
+```
+            Name(_DEP, Package(0x3)
+            {
+                \_SB_.GIO0,
+                \_SB_.IC14,
+                \_SB_.PEP0
+            })
+```
