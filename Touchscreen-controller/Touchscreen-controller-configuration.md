@@ -1,6 +1,6 @@
 # Bringing up touchscreen controller for Windows platform
 
-This article will explain how to implement touchscreen controller on Windows OS using a downstream Linux device tree as reference.
+This article will explain how to implement I2C touchscreen controller on Windows operating system using a downstream Linux device tree as reference.
 
 All examples shown below were used from the implementation of an Android device with Qualcomm Snapdragon 778G SoC (SM7325).
 
