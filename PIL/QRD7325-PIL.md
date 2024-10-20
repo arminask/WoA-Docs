@@ -2,7 +2,7 @@
 
 Document formatting based on [MTP08350 platform](https://github.com/WOA-Project/windows_silicon_qcom_lahaina/blob/26fe3908e8a651de0498eed797518ca93b2c1420/docs/PIL.md)
 
-## SM7325 Platform ID Case Study
+## QRD7325 Platform ID Case Study
 
 ### Windows Firmware Information
 
@@ -22,7 +22,7 @@ The entire PIL region **allocated** by the UEFI firmware is:
 | Memory Start | 0x84300000 | 0x84800000 | 0x86100000 | 0x88900000 | 0x8A700000 | 0x8B200000 | 0x8B800000 | 0x9AE00000 | 0x9B300000 | 0x9B305000 | 0x9B309000 |
 | Memory End   | 0x84800000 | 0x86100000 | 0x88900000 | 0x8A700000 | 0x8B200000 | 0x8B800000 | 0x9AE00000 | 0x9B300000 | 0x9B305000 | 0x9B309000 | 0x9BD00000 |
 | Memory Size  | 0x00500000 | 0x01900000 | 0x02800000 | 0x01E00000 | 0x00B00000 | 0x00600000 | 0x0F600000 | 0x00500000 | 0x00005000 | 0x00004000 | 0x009F7000 |
-| Config       | PILE       | SUB?, PILE | SUBA, PILE | SUBC, PILE |            | PILE       | SUBM       | PILE       | PILE       |    	 |            |
+| Config       | Hardcoded  | SUBW, PILE | SUBA, PILE | SUBC, PILE |            | PILE       | SUBM       | PILE       | PILE       |    	 |            |
 
 PGCM area is configured in PILE (qcpilEXT7280) and must match above table allocation plan.
 
